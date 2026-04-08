@@ -6,4 +6,4 @@
         header("Access-Control-Max-Age:3600");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Autorizations, X-Requested-With");
 
-        echo json_encode(["mensagem"=>"Bem-Vindo à API JUCA PIZZARIA"]);
+        echo json_encode(["mensagem"=>"Bem-Vindo à API JUCA PIZZARIA"],JSON_PRETTY_PRINT);
