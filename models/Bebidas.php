@@ -11,7 +11,7 @@ class Bebidas{
     public function __construct($db) {
         $this->conn = $db;
     }
-    function read() {
+    function get() {
         // Query SQL para selecionar todos os campos da tabela de pizzas
         $query = "SELECT idBebida, nomeBebida, tipoBebida,volume, valor FROM " . $this->tabela . " ORDER BY valor ASC";
         

@@ -1,5 +1,5 @@
 <?php
-// api/pizza/read.php
+// api/bebida/get.php
  
 // Headers obrigatórios
 header("Access-Control-Allow-Origin: *");
@@ -14,20 +14,21 @@ $database = new Database();
 $db = $database->getConnection();
  
 // Instanciar o objeto Pizza
-$bebidas = new Bebidas($db);
+$bebida = new Bebidas($db);
 
-$pizza->id = isset($_GET['id']) ? $_GET['id'] : null;
+$bebida->idBebida = isset($_GET['id']) ? $_GET['id'] : null;
  
-if ($pizza->id) {
+if ($bebida->idBebida) {
     // Busca a pizza
-    $pizza->read_single();
+    $bebida->read_single();
  
     // Cria o array de resposta
     $pizza_arr = array(
-        "id" => $pizza->id,
-        "nome" => $pizza->nome,
-        "ingredientes" => $pizza->ingredientes,
-        "valor" => $pizza->valor
+        "id" => $bebida->idBebida,
+        "nome" => $bebida->nomeBebida,
+        "tipo" => $bebida->tipoBebida,
+        "volume" => $bebida->volume,
+        "valor" => $bebida->valor
     );
  
     // Converte para JSON e envia a resposta
@@ -37,7 +38,7 @@ if ($pizza->id) {
 
 try{ //colocar para demonstrar erro com coluna errada mas lá no método read em pizza
     // Chamar o método read() para buscar as pizzas
-    $stmt = $bebidas->read();
+    $stmt = $bebidas->get();
     $num = $stmt->rowCount();
  
     // Verificar se mais de 0 registros foram encontrados
