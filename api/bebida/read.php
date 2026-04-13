@@ -16,8 +16,26 @@ $db = $database->getConnection();
 // Instanciar o objeto Pizza
 $bebidas = new Bebidas($db);
 
+$pizza->id = isset($_GET['id']) ? $_GET['id'] : null;
+ 
+if ($pizza->id) {
+    // Busca a pizza
+    $pizza->read_single();
+ 
+    // Cria o array de resposta
+    $pizza_arr = array(
+        "id" => $pizza->id,
+        "nome" => $pizza->nome,
+        "ingredientes" => $pizza->ingredientes,
+        "valor" => $pizza->valor
+    );
+ 
+    // Converte para JSON e envia a resposta
+    // `JSON_PRETTY_PRINT` é opcional, mas deixa o JSON mais legível
+    echo json_encode($pizza_arr, JSON_PRETTY_PRINT);
+} else {
 
-// try{ colocar para demonstrar erro com coluna errada mas lá no método read em pizza
+try{ //colocar para demonstrar erro com coluna errada mas lá no método read em pizza
     // Chamar o método read() para buscar as pizzas
     $stmt = $bebidas->read();
     $num = $stmt->rowCount();
@@ -57,7 +75,8 @@ echo json_encode(
     array("message" => "Nenhuma bebida encontrada.")
 );
 }
-// }
-// catch (Exception $e) {
-//  echo json_encode(array("erro" => $e->getMessage()));
-// }            
+}
+catch (Exception $e) {
+echo json_encode(array("erro" => $e->getMessage()));
+}  
+}          
