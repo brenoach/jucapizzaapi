@@ -1,8 +1,5 @@
-api/bebidas/
-getall.php
- 
 <?php
- 
+// api/bebidas/getall.php
  
 // Headers obrigatórios
 header("Access-Control-Allow-Origin: *");
@@ -19,8 +16,8 @@ $db = $database->getConnection();
 // Instanciar o objeto Bebidas
 $bebidas = new Bebidas($db);
  
- try{ //colocar para demonstrar erro com coluna errada mas lá no método read em pizza
-     // Chamar o método read() para buscar as pizzas
+ try{ 
+     // Chamar o método read() para buscar as bebidas
      $stmt = $bebidas->read();
      $num = $stmt->rowCount();
  
@@ -31,36 +28,32 @@ $bebidas = new Bebidas($db);
  
          // Percorrer o resultado da consulta
          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // A função extract transforma $row['nome'] em apenas $nome
+             // Extrai os dados do array $row para variáveis separadas
              extract($row);
  
+             // Ajustado para os nomes corretos vindos da consulta do Model
              $bebidas_item = array(
-                 "id" => $idBebidas,
-                 "nome" => $nome,
-                 "litros" => $litros,
+                 "id" => $idBebida,
+                 "nome" => $nomeBebida,
+                 "tipo" => $tipoBebida, // Adicionei o tipo que estava faltando
+                 "volume" => $volume,
                  "valor" => $valor
              );
  
              array_push($bebidas_arr, $bebidas_item);
          }
  
-         // Definir o código de resposta como 200 OK
          http_response_code(200);
- 
-         // Mostrar os dados das bebidas em formato JSON
          echo json_encode($bebidas_arr);
      } else {
-         // Se nenhuma bebida for encontrada, definir o código de resposta como 404 Not Found
          http_response_code(404);
- 
-         // Informar ao usuário que nenhuma bebida foi encontrada
          echo json_encode(
-             array("message" => "Nenhuma bebida encontrada.")
+             array("Mensagem" => "Nenhuma bebida encontrada.")
          );
      }
-  }
-  catch (Exception $e) {
+ }
+ catch (Exception $e) {
+   http_response_code(500);
    echo json_encode(array("erro" => $e->getMessage()));
  }
- 
- 
+?>
